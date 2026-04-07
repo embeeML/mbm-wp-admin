@@ -20,24 +20,21 @@ class MBM_Branding {
 	// -------------------------------------------------------------------------
 
 	public function login_logo(): void {
-		$logo_url = MBM_WP_ADMIN_TOOLKIT_URL . 'admin/images/login-logo.png';
+    $logo_url = MBM_Settings::get( 'mbm_branding_login_logo' );
 
-		// Only output if the logo file actually exists
-		if ( ! file_exists( MBM_WP_ADMIN_TOOLKIT_DIR . 'admin/images/login-logo.png' ) ) {
-			return;
-		}
-		?>
-		<style>
-			#login h1 a {
-				background-image: url('<?php echo esc_url( $logo_url ); ?>');
-				background-size: contain;
-				background-repeat: no-repeat;
-				background-position: center;
-				width: 200px;
-				height: 80px;
-			}
-		</style>
-		<?php
+    if ( empty( $logo_url ) ) return;
+    ?>
+    <style>
+        #login h1 a {
+            background-image: url('<?php echo esc_url( $logo_url ); ?>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 200px;
+            height: 80px;
+        }
+    </style>
+    <?php
 	}
 
 	public function login_logo_url(): string {

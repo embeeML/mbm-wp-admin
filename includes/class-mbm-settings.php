@@ -16,6 +16,7 @@ class MBM_Settings {
 	public static array $defaults = [
 
 		// Branding
+		'mbm_branding_login_logo'      => '',
 		'mbm_branding_admin_bar_color' => '#1e1e2d',
 		'mbm_branding_footer_text'     => 'Site built by <a href="https://matthewboyles.dev">Matthew Boyles Media</a>',
 		'mbm_branding_remove_wp_logo'  => true,
@@ -26,7 +27,7 @@ class MBM_Settings {
 		'mbm_dashboard_remove_recent_drafts' => true,
 		'mbm_dashboard_remove_activity'      => true,
 		'mbm_dashboard_remove_elementor'     => true,
-		'mbm_dashboard_welcome_message'      => 'Welcome! Need help? Contact us anytime.',
+		'mbm_dashboard_welcome_message'      => 'Welcome! Use the tabs above to configure your admin dashboard and menu settings.',
 
 		// Menus — applies to Editor role
 		'mbm_menu_hide_plugins'       => true,
@@ -45,6 +46,7 @@ class MBM_Settings {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
+		    add_action( 'admin_init',  array( $this, 'handle_logo_upload' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_tab_script' ) );
 	}
 
@@ -84,6 +86,7 @@ class MBM_Settings {
 
 		$settings = [
 			// Branding
+			'mbm_branding_login_logo' => 'esc_url_raw',
 			'mbm_branding_admin_bar_color' => $sanitize_text,
 			'mbm_branding_footer_text'     => $sanitize_html,
 			'mbm_branding_remove_wp_logo'  => $sanitize_bool,
@@ -151,7 +154,7 @@ class MBM_Settings {
 				<a href="#" class="nav-tab mbm-tab-link" data-target="#mbm-tab-permissions">Permissions</a>
 			</nav>
 
-			<form method="post" action="options.php" style="margin-top: 20px;">
+			<form method="post" action="options.php" enctype="multipart/form-data" style="margin-top: 20px;">
 				<?php settings_fields( $this->option_group ); ?>
 
 				<?php $this->render_tab_branding(); ?>
@@ -168,40 +171,66 @@ class MBM_Settings {
 	// Tab: Branding
 	// -------------------------------------------------------------------------
 
-	private function render_tab_branding(): void { ?>
-		<div id="mbm-tab-branding" class="mbm-tab-panel" style="display:none;">
-			<table class="form-table">
+	private function render_tab_branding(): void {
+    $logo_url = self::get( 'mbm_branding_login_logo' );
+    ?>
+    <div id="mbm-tab-branding" class="mbm-tab-panel" style="display:none;">
+        <table class="form-table">
 
-				<tr>
-					<th scope="row">Admin Bar Color</th>
-					<td>
-						<input type="color" name="mbm_branding_admin_bar_color"
-							value="<?php echo esc_attr( self::get( 'mbm_branding_admin_bar_color' ) ); ?>" />
-						<p class="description">Background color of the WP admin bar.</p>
-					</td>
-				</tr>
+            <tr>
+                <th scope="row">Login Page Logo</th>
+                <td>
+                    <?php if ( $logo_url ) : ?>
+                        <div style="margin-bottom: 10px;">
+                            <img src="<?php echo esc_url( $logo_url ); ?>"
+                                 style="max-width: 200px; max-height: 80px; display:block; margin-bottom:8px;" />
+                        </div>
+                    <?php endif; ?>
+                    <input type="file" name="mbm_branding_login_logo_upload"
+                           accept="image/png, image/jpeg, image/svg+xml" />
+                    <input type="hidden" name="mbm_branding_login_logo"
+                           value="<?php echo esc_url( $logo_url ); ?>" />
+                    <p class="description">Recommended: PNG or SVG, max 200×80px. Displayed on the WP login page.</p>
+                    <?php if ( $logo_url ) : ?>
+                        <label style="display:block; margin-top:6px;">
+                            <input type="checkbox" name="mbm_branding_login_logo_remove" value="1" />
+                            Remove current logo
+                        </label>
+                    <?php endif; ?>
+                </td>
+            </tr>
 
-				<tr>
-					<th scope="row">Remove WP Logo</th>
-					<td>
-						<input type="checkbox" name="mbm_branding_remove_wp_logo" value="1"
-							<?php checked( 1, self::get( 'mbm_branding_remove_wp_logo' ) ); ?> />
-						<label>Remove the WordPress logo from the admin bar</label>
-					</td>
-				</tr>
+            <tr>
+                <th scope="row">Admin Bar Color</th>
+                <td>
+                    <input type="color" name="mbm_branding_admin_bar_color"
+                        value="<?php echo esc_attr( self::get( 'mbm_branding_admin_bar_color' ) ); ?>" />
+                    <p class="description">Background color of the WP admin bar.</p>
+                </td>
+            </tr>
 
-				<tr>
-					<th scope="row">Admin Footer Text</th>
-					<td>
-						<input type="text" name="mbm_branding_footer_text" class="large-text"
-							value="<?php echo esc_attr( self::get( 'mbm_branding_footer_text' ) ); ?>" />
-						<p class="description">Supports basic HTML (links, bold, etc).</p>
-					</td>
-				</tr>
+            <tr>
+                <th scope="row">Remove WP Logo</th>
+                <td>
+                    <input type="checkbox" name="mbm_branding_remove_wp_logo" value="1"
+                        <?php checked( 1, self::get( 'mbm_branding_remove_wp_logo' ) ); ?> />
+                    <label>Remove the WordPress logo from the admin bar</label>
+                </td>
+            </tr>
 
-			</table>
-		</div>
-	<?php }
+            <tr>
+                <th scope="row">Admin Footer Text</th>
+                <td>
+                    <input type="text" name="mbm_branding_footer_text" class="large-text"
+                        value="<?php echo esc_attr( self::get( 'mbm_branding_footer_text' ) ); ?>" />
+                    <p class="description">Supports basic HTML (links, bold, etc).</p>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+    <?php
+}
 
 	// -------------------------------------------------------------------------
 	// Tab: Dashboard
@@ -305,4 +334,58 @@ class MBM_Settings {
 			</table>
 		</div>
 	<?php }
+
+	// -------------------------------------------------------------------------
+// Handle logo file upload separately from options.php
+// -------------------------------------------------------------------------
+
+public function handle_logo_upload(): void {
+    if (
+        ! isset( $_POST['option_page'] ) ||
+        $_POST['option_page'] !== $this->option_group
+    ) return;
+
+    if ( ! current_user_can( 'manage_options' ) ) return;
+    if ( ! check_admin_referer( $this->option_group . '-options' ) ) return;
+
+    // Handle remove checkbox
+    if ( ! empty( $_POST['mbm_branding_login_logo_remove'] ) ) {
+        update_option( 'mbm_branding_login_logo', '' );
+        return;
+    }
+
+    // Handle new file upload
+    if (
+        ! empty( $_FILES['mbm_branding_login_logo_upload']['name'] ) &&
+        $_FILES['mbm_branding_login_logo_upload']['error'] === UPLOAD_ERR_OK
+    ) {
+        $file     = $_FILES['mbm_branding_login_logo_upload'];
+        $allowed  = [ 'image/png', 'image/jpeg', 'image/svg+xml' ];
+
+        if ( ! in_array( $file['type'], $allowed, true ) ) {
+            add_settings_error(
+                'mbm_branding_login_logo',
+                'invalid_type',
+                'Logo must be a PNG, JPG, or SVG file.'
+            );
+            return;
+        }
+
+        // Use WP's own upload handling
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+
+        $upload = wp_handle_upload( $file, [ 'test_form' => false ] );
+
+        if ( isset( $upload['error'] ) ) {
+            add_settings_error(
+                'mbm_branding_login_logo',
+                'upload_error',
+                'Upload failed: ' . esc_html( $upload['error'] )
+            );
+            return;
+        }
+
+        update_option( 'mbm_branding_login_logo', $upload['url'] );
+    }
+}
 }
