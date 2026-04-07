@@ -20,10 +20,10 @@ class MBM_Branding {
 	// -------------------------------------------------------------------------
 
 	public function login_logo(): void {
-		$logo_url = MBM_WP_ADMIN_TOOLKIT_URL . 'assets/images/login-logo.png';
+		$logo_url = MBM_WP_ADMIN_TOOLKIT_URL . 'admin/images/login-logo.png';
 
 		// Only output if the logo file actually exists
-		if ( ! file_exists( MBM_WP_ADMIN_TOOLKIT_DIR . 'assets/images/login-logo.png' ) ) {
+		if ( ! file_exists( MBM_WP_ADMIN_TOOLKIT_DIR . 'admin/images/login-logo.png' ) ) {
 			return;
 		}
 		?>
