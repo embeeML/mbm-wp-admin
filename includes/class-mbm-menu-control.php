@@ -14,8 +14,20 @@ class MBM_Menu_Control {
 	// Remove admin menu items for Editor role
 	// -------------------------------------------------------------------------
 
+	private function is_editor_user(): bool {
+		$user = wp_get_current_user();
+
+		if ( ! $user || empty( $user->roles ) ) {
+			return false;
+		}
+
+		return in_array( 'editor', $user->roles, true );
+	}
+
 	public function remove_menus(): void {
-		if ( current_user_can( 'administrator' ) ) return;
+		if ( ! $this->is_editor_user() ) {
+			return;
+		}
 
 		$menus = [
 			'mbm_menu_hide_plugins'   => 'plugins.php',

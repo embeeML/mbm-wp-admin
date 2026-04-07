@@ -51,7 +51,7 @@ class MBM_WP_Admin_Toolkit {
 		require_once MBM_WP_ADMIN_TOOLKIT_DIR . 'includes/class-mbm-dashboard.php';
 		require_once MBM_WP_ADMIN_TOOLKIT_DIR . 'includes/class-mbm-menu-control.php';
 		require_once MBM_WP_ADMIN_TOOLKIT_DIR . 'includes/class-mbm-branding.php';
-		require_once MBM_WP_ADMIN_TOOLKIT_DIR . 'includes/class-mbm-permissions.php';
+		require_once MBM_WP_ADMIN_TOOLKIT_DIR . 'includes/class-mbm-permission.php';
 		require_once MBM_WP_ADMIN_TOOLKIT_DIR . 'includes/class-mbm-settings.php';
 
 		new MBM_Dashboard();
