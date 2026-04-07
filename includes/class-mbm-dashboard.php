@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class MBM_Dashboard {
 
 	public function __construct() {
-		add_action( 'wp_dashboard_setup', array( $this, 'remove_widgets' ) );
+		add_action( 'wp_dashboard_setup', array( $this, 'remove_widgets' ), 999 );
 		add_action( 'wp_dashboard_setup', array( $this, 'add_welcome_widget' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_widget_styles' ) );
 	}
