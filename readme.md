@@ -1,134 +1,138 @@
-=== MBM WP Admin Toolkit ===
-Contributors: matthewboylesmedia
-Tags: admin, dashboard, branding, permissions, client-site
-Requires at least: 6.0
-Tested up to: 6.7
-Stable tag: 1.0.0
-Requires PHP: 8.0
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+# MBM WP Admin Toolkit
 
 Toolkit for branding, dashboard cleanup, menu visibility control, and editor access restrictions.
 
-== Description ==
+## Plugin Info
+
+- Version: 1.0.0
+- Requires WordPress: 6.0+
+- Tested up to: 6.7
+- Requires PHP: 8.0+
+- License: GPLv2 or later
+- License URL: https://www.gnu.org/licenses/gpl-2.0.html
+- Tags: admin, dashboard, branding, permissions, client-site
+
+## Description
 
 MBM WP Admin Toolkit is designed for agencies and site owners who need a cleaner, safer WordPress admin experience for Editor users.
 
-It provides one settings screen with tabs for Branding, Dashboard, Menus, and Permissions.
+The plugin provides one settings screen with tabs for Branding, Dashboard, Menus, and Permissions.
 
-== Core Functions and Modules ==
-
-= Plugin bootstrap =
-
-* Loads plugin constants and hooks from main plugin file.
-* Registers activation and deactivation callbacks.
-* Boots the main loader class and module classes.
-
-= Settings module =
-
-Settings are managed through the MBM Toolkit admin page.
-
-Main responsibilities:
-* Defines defaults for all plugin options.
-* Registers and sanitizes settings values.
-* Handles settings form submission.
-* Handles login logo upload/removal.
-* Renders tabbed settings UI.
-
-= Branding module =
-
-Branding functions:
-* Replace WordPress login logo.
-* Change login logo link target (site home URL).
-* Change login logo title text (site name).
-* Customize admin footer text.
-* Customize admin bar background color.
-* Optionally remove WordPress logo from admin bar.
-
-= Dashboard module =
-
-Dashboard functions:
-* Remove selected core dashboard widgets.
-* Remove Elementor dashboard overview widget (if enabled).
-* Add a custom welcome widget with quick admin links.
-* Inject lightweight dashboard-only widget styling.
-
-= Menu control module =
-
-Menu functions (Editor role only):
-* Hide Plugins menu.
-* Hide Appearance/Themes related menus.
-* Hide Tools menu.
-* Hide Settings menu.
-* Hide Comments menu.
-* Hide Elementor top-level menu.
-
-= Permissions module =
-
-Access restriction functions (Editor role only):
-* Block direct access to plugin/theme editor pages.
-* Block direct access to plugins.php when enabled.
-* Block direct access to themes/customizer/menu/widget pages when enabled.
-* Block direct access to settings pages when enabled.
-* Block selected Elementor admin pages when enabled.
-
-= Activation module =
-
-On first activation:
-* Stores plugin version option.
-* Seeds all default settings options.
-* Flushes rewrite rules.
-
-On deactivation:
-* Flushes rewrite rules.
-
-== How To Use ==
-
-1. Install and activate the plugin.
-2. In wp-admin, open MBM Toolkit.
-3. Configure each tab:
-	* Branding: set logo, admin bar color, footer text, and WP logo visibility.
-	* Dashboard: toggle widget removals and set the welcome message.
-	* Menus: choose which menus to hide from Editor users.
-	* Permissions: enforce URL-level blocking for sensitive pages.
-4. Click Save Settings.
-5. Test with an Editor account to confirm the intended experience.
-
-== Recommended Workflow ==
-
-* Configure settings while logged in as Administrator.
-* Use a separate Editor test user to validate restrictions.
-* If using Elementor, verify both menu hiding and direct URL blocking.
-* Keep a backup of logo assets before replacing/removing.
-
-== Notes ==
-
-* Menu and permission restrictions currently target Editor users.
-* Admin users are not restricted by this plugin.
-* Footer text allows basic HTML.
-
-== Installation ==
+## Installation
 
 1. Upload the plugin folder to /wp-content/plugins/.
-2. Activate through the Plugins menu.
-3. Go to MBM Toolkit in wp-admin to configure options.
+2. Activate MBM WP Admin Toolkit from the Plugins screen.
+3. Open MBM Toolkit in wp-admin.
+4. Configure settings and save.
 
-== Frequently Asked Questions ==
+## Core Functions and Modules
 
-= Who is affected by menu and permission restrictions? =
+### Plugin Bootstrap
 
-Editor users only.
+- Loads plugin constants and hooks from the main plugin file.
+- Registers activation and deactivation callbacks.
+- Boots the main loader class and module classes.
 
-= Will this plugin remove data on deactivation? =
+### Settings Module
+
+Settings are managed from the MBM Toolkit admin page.
+
+- Defines defaults for all plugin options.
+- Registers and sanitizes settings values.
+- Handles settings form submission.
+- Handles login logo upload and removal.
+- Renders a tabbed settings UI.
+
+### Branding Module
+
+- Replaces the WordPress login logo.
+- Changes login logo URL target to the site home URL.
+- Changes login logo title text to the site name.
+- Customizes admin footer text.
+- Customizes admin bar background color.
+- Optionally removes the WordPress logo from the admin bar.
+
+### Dashboard Module
+
+- Removes selected core dashboard widgets.
+- Removes Elementor dashboard overview widget (when enabled).
+- Adds a custom welcome widget with quick admin links.
+- Injects lightweight dashboard-only styling.
+
+### Menu Control Module
+
+Applies to Editor users only.
+
+- Hides Plugins menu.
+- Hides Appearance and Themes related menus.
+- Hides Tools menu.
+- Hides Settings menu.
+- Hides Comments menu.
+- Hides Elementor top-level menu.
+
+### Permissions Module
+
+Applies to Editor users only.
+
+- Blocks direct access to plugin and theme editor pages.
+- Blocks direct access to plugins.php when enabled.
+- Blocks direct access to themes/customizer/menu/widget pages when enabled.
+- Blocks direct access to WordPress settings pages when enabled.
+- Blocks selected Elementor admin pages when enabled.
+
+### Activation and Deactivation
+
+On first activation:
+
+- Stores plugin version option.
+- Seeds all default settings options.
+- Flushes rewrite rules.
+
+On deactivation:
+
+- Flushes rewrite rules.
+
+## How to Use
+
+1. Open MBM Toolkit in wp-admin.
+2. Configure each tab:
+- Branding: Set logo, admin bar color, footer text, and WordPress logo visibility.
+- Dashboard: Toggle widget removals and set the welcome message.
+- Menus: Choose which menus to hide from Editor users.
+- Permissions: Enforce URL-level blocking for sensitive pages.
+3. Click Save Settings.
+4. Test with an Editor account to confirm behavior.
+
+## Recommended Workflow
+
+- Configure settings while logged in as Administrator.
+- Use a separate Editor test account to verify restrictions.
+- If Elementor is installed, test both menu hiding and direct URL blocking.
+- Keep a backup of logo assets before replacing or removing.
+
+## Notes
+
+- Menu and permission restrictions target Editor users.
+- Administrator users are not restricted by these controls.
+- Footer text supports basic HTML.
+
+## FAQ
+
+### Who is affected by menu and permission restrictions?
+
+Editor users.
+
+### Will this plugin remove data on deactivation?
 
 No. Deactivation does not delete saved options.
 
-= How do I reset settings quickly? =
+### How do I reset settings quickly?
 
-Disable and re-enable does not reset options. Remove options manually from the database if you need a full reset.
+Disable and re-enable does not reset options. Remove options manually from the database for a full reset.
 
-== Changelog ==
+## Changelog
 
-= 1.0.0 =
-* Initial release.
-* Added module and usage documentation.
+### 1.0.0
+
+- Initial release.
+- Added module and usage documentation.
